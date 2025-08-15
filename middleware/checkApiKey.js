@@ -1,7 +1,10 @@
 const bcrypt = require('bcryptjs');
-const { sql } = require('@vercel/postgres');
+const { createPool } = require('@vercel/postgres');
 
 const checkApiKeySecure = async (req, res, next) => {
+    // This now correctly points to your prefixed Vercel variable.
+    const sql = createPool({ connectionString: process.env.monk_POSTGRES_URL }).sql;
+    
     const apiKey = req.get('X-API-Key');
     if (!apiKey) {
         return res.status(401).json({ error: 'Unauthorized: Missing API Key' });
