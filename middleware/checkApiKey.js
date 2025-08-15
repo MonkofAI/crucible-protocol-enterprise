@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { sql } = require('@vercel/postgres'); // Simplified import
+const { sql } = require('@vercel/postgres'); // Use the simple, default import
 
 const checkApiKeySecure = async (req, res, next) => {
     const apiKey = req.get('X-API-Key');
@@ -8,7 +8,7 @@ const checkApiKeySecure = async (req, res, next) => {
     }
 
     try {
-        // This now uses the default sql object, which automatically finds the POSTGRES_URL
+        // This will automatically find the POSTGRES_URL from Vercel's environment
         const { rows: clients } = await sql`SELECT * FROM clients WHERE is_active = true;`;
         let authorizedClient = null;
 
